@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RRT Drug Dilution & Infusion Calculator</title>
+  <title>RRT Drug Dilution &amp; Infusion Calculator – Extended</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    /*
+     * Basic page styling.  A neutral palette with clear typographic
+     * hierarchy keeps the interface approachable.  If you need to
+     * adjust spacing or sizing it is generally better to modify the
+     * underlying classes here rather than sprinkling inline styles
+     * throughout the markup.  Keeping the CSS in one place makes
+     * future maintenance easier.
+     */
     * {
       box-sizing: border-box;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -16,7 +24,7 @@
       background: #f4f5f7;
     }
     .app {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       background: #ffffff;
       padding: 1.5rem;
@@ -40,6 +48,21 @@
       border-left: 4px solid #faad14;
       font-size: 0.85rem;
     }
+
+    /*
+     * A dedicated‑line alert shares the same structure as the base warning
+     * banner but uses a higher contrast palette.  The increased font
+     * weight and slightly larger size help call attention to the fact
+     * that these drugs must run through their own IV access.  Feel free
+     * to adjust colours here if your local branding guidelines differ.
+     */
+    #dedicatedLineAlert {
+      background: #fff1f0;
+      border-left: 4px solid #ff4d4f;
+      color: #a8071a;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
     label {
       display: block;
       font-size: 0.85rem;
@@ -60,7 +83,7 @@
       margin-top: 0.75rem;
     }
     .col {
-      flex: 1 1 160px;
+      flex: 1 1 180px;
     }
     .muted {
       font-size: 0.8rem;
@@ -118,6 +141,22 @@
       border-left: 4px solid #1677ff;
       font-size: 0.85rem;
     }
+    table.infusion-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+    }
+    table.infusion-table th,
+    table.infusion-table td {
+      border: 1px solid #d9d9d9;
+      padding: 0.3rem 0.4rem;
+      text-align: center;
+    }
+    table.infusion-table th {
+      background: #fafafa;
+      font-weight: 600;
+    }
     @media (max-width: 600px) {
       body {
         padding: 0.75rem;
@@ -131,16 +170,17 @@
 <body>
 <div class="app">
   <h1>RRT Drug Dilution &amp; Infusion Calculator</h1>
-  <p><strong>Note:</strong> This tool supports common RRT infusions and assumes standard preparations from your local guide. Always cross-check with the official protocol and clinical judgement.</p>
+  <p><strong>Note:</strong> This tool supports common RRT infusions and assumes standard preparations from your local guide. Always cross‑check with the official protocol and clinical judgement.</p>
 
   <div class="warning">
-    This calculator does <strong>not</strong> replace your local drug dilution guide, pump charts, or consultant/anaesthetist instructions. Use at your own responsibility and verify all results before prescribing or administering.
+    This calculator does <strong>not</strong> replace your local drug dilution guide, pump charts or consultant instructions. Use at your own responsibility and verify all results before prescribing or administering.
   </div>
 
   <div class="row" style="margin-top:1rem;">
     <div class="col" style="flex:2 1 260px;">
       <label for="drugSelect">Drug</label>
       <select id="drugSelect">
+        <!-- Base catecholamines -->
         <option value="dobutamine">Dobutamine</option>
         <option value="dopamine">Dopamine</option>
         <option value="norad_peripheral">Noradrenaline (Peripheral)</option>
@@ -148,11 +188,29 @@
         <option value="isoprenaline">Isoprenaline</option>
         <option value="labetalol">Labetalol infusion</option>
         <option value="salbutamol_iv">Salbutamol IV infusion</option>
+        <!-- New drugs -->
+        <option value="amiodarone_loading">Amiodarone – Loading</option>
+        <option value="amiodarone_maintenance">Amiodarone – Maintenance</option>
+        <option value="magnesium_2g">Magnesium Sulphate 2 g</option>
+        <option value="magnesium_24mmol">Magnesium Sulphate 24 mmol</option>
+        <option value="potassium_chloride_std">Potassium Chloride – Standard</option>
+        <option value="potassium_chloride_restricted">Potassium Chloride – Fluid restricted</option>
+        <option value="potassium_chloride_high">Potassium Chloride – High concentration</option>
+        <!-- Additional drugs from the guide -->
+        <option value="lidocaine_maintenance">Lidocaine – Ventricular arrhythmia maintenance</option>
+        <option value="levetiracetam">Levetiracetam (Keppra)</option>
+        <option value="phosphate_addiphos">Phosphate (Addiphos)</option>
       </select>
     </div>
   </div>
 
+  <!-- Preparation and standard concentration display -->
   <div class="prep" id="prepText"></div>
+
+  <!-- Dedicated line alert.  This banner appears only when a drug requires a dedicated intravenous line. -->
+  <div id="dedicatedLineAlert" class="warning" style="display:none; background:#fff1f0; border-left-color:#ff4d4f; color:#a8071a;">
+    <strong>Dedicated line required:</strong> this drug must be administered via its own IV line.
+  </div>
   <p class="standard">
     Standard concentration: <span id="standardConcentration"></span>
   </p>
@@ -160,16 +218,21 @@
     You may optionally override the concentration below if the prepared bag/syringe differs from the standard.
   </p>
 
+  <!-- Input groups for height, weight, dose and concentration -->
   <div class="row">
+    <div class="col" id="heightGroup" style="display:none;">
+      <label for="heightInput">Patient height (cm)</label>
+      <input type="number" id="heightInput" min="120" max="200" step="1" placeholder="e.g. 170">
+    </div>
     <div class="col" id="weightGroup">
       <label for="weightInput">Patient weight (kg)</label>
       <input type="number" id="weightInput" min="1" step="0.1" placeholder="e.g. 70">
     </div>
-    <div class="col">
+    <div class="col" id="doseGroup">
       <label id="doseLabel" for="doseInput">Target dose</label>
       <input type="number" id="doseInput" min="0" step="0.01" placeholder="">
     </div>
-    <div class="col">
+    <div class="col" id="concGroup">
       <label id="concentrationLabel" for="concentrationInput">Custom concentration</label>
       <input type="number" id="concentrationInput" min="0" step="0.01" placeholder="Leave blank for standard">
     </div>
@@ -178,12 +241,23 @@
   <button id="calculateBtn" type="button">Calculate infusion rate</button>
   <div class="error" id="error"></div>
 
+  <!-- Results section -->
   <div class="results" id="results" style="display:none;">
     <h2>Result</h2>
-    <div class="result-main">
-      Set pump to approximately <span id="rateOutput"></span> mL/h
-    </div>
+    <div class="result-main" id="resultMain"></div>
     <div class="result-text" id="summaryText"></div>
+  </div>
+
+  <!-- Noradrenaline dosing table -->
+  <div id="noradTableContainer" style="display:none;">
+    <h2>Recommended infusion rates by height and dose</h2>
+    <table id="noradTable" class="infusion-table"></table>
+  </div>
+
+  <!-- Simple dose → rate table.  Used for drugs like Isoprenaline that have a predefined scale independent of weight. -->
+  <div id="doseRateTableContainer" style="display:none;">
+    <h2>Recommended infusion rates</h2>
+    <table id="doseRateTable" class="infusion-table"></table>
   </div>
 
   <div class="warning">
@@ -192,12 +266,54 @@
 </div>
 
 <script>
-  // Drug configuration based on your RRT drug guide.
-  // unitType:
-  //   "mcg_kg_min" -> dose in micrograms/kg/min (requires weight)
-  //   "mcg_min"    -> dose in micrograms/min
-  //   "mg_min"     -> dose in milligrams/min
+  // Mapping of predetermined heights (cm) to ideal body weight (kg) as per the guide.  If a height
+  // not in the table is entered, the code will perform a simple linear interpolation between the
+  // closest defined heights.  This approach mirrors the dosing charts found in the drug guide and
+  // allows users to input intermediate heights without needing an exhaustive table.
+  const heightToIBW = {
+    140: 34,
+    145: 39,
+    150: 43,
+    155: 48,
+    160: 52,
+    165: 57,
+    170: 62,
+    175: 66,
+    180: 71,
+    185: 75,
+    190: 80,
+    195: 84,
+    200: 89
+  };
+
+  // Helper to estimate ideal body weight from a given height.  If the exact height is not in the
+  // mapping, perform linear interpolation between the nearest defined heights.  Heights outside
+  // the defined range are capped at the nearest extremes.
+  function estimateIBW(height) {
+    const hVals = Object.keys(heightToIBW).map(h => parseInt(h, 10)).sort((a,b) => a - b);
+    if (height <= hVals[0]) return heightToIBW[hVals[0]];
+    if (height >= hVals[hVals.length-1]) return heightToIBW[hVals[hVals.length-1]];
+    let lower = hVals[0];
+    let upper = hVals[hVals.length-1];
+    for (let i = 0; i < hVals.length - 1; i++) {
+      if (height >= hVals[i] && height <= hVals[i+1]) {
+        lower = hVals[i];
+        upper = hVals[i+1];
+        break;
+      }
+    }
+    const weightLower = heightToIBW[lower];
+    const weightUpper = heightToIBW[upper];
+    const proportion = (height - lower) / (upper - lower);
+    return weightLower + (weightUpper - weightLower) * proportion;
+  }
+
+  // Configuration object describing each supported drug.  For weight‑based infusions, specify
+  // unitType = "mcg_kg_min" or "mcg_min" or "mg_min".  For fixed infusion regimens, use
+  // unitType = "preset" and provide infusionVolume (mL) and infusionTimeHr (hours).  For
+  // electrolyte solutions like potassium, use unitType = "mmol_hr" with concentrationMmolPerMl.
   const drugConfigs = {
+    // Catecholamines and respiratory support drugs
     dobutamine: {
       name: "Dobutamine",
       unitType: "mcg_kg_min",
@@ -207,7 +323,8 @@
       maxDose: 20,
       defaultWeight: 70,
       prepText:
-        "Standard bag: 250 mg in 250 mL NS or D5W (1 mg/mL = 1000 mcg/mL). Use a dedicated line."
+        "Standard bag: 250 mg in 250 mL NS or D5W (1 mg/mL = 1000 mcg/mL). Use a dedicated line.",
+      requiresDedicatedLine: true
     },
     dopamine: {
       name: "Dopamine",
@@ -218,7 +335,8 @@
       maxDose: 25,
       defaultWeight: 70,
       prepText:
-        "Standard bag: 400 mg in 250 mL NS or D5W (1600 mcg/mL). Use a dedicated line."
+        "Standard bag: 400 mg in 250 mL NS or D5W (1600 mcg/mL). Use a dedicated line.",
+      requiresDedicatedLine: true
     },
     norad_peripheral: {
       name: "Noradrenaline (Peripheral)",
@@ -227,20 +345,26 @@
       defaultDose: 0.05,
       minDose: 0.01,
       maxDose: 0.25,
-      defaultWeight: 70,
+      defaultWeight: null,
       prepText:
-        "Peripheral infusion: 4 mg in 250 mL NS (16 mcg/mL). Dedicated line only; follow local peripheral-use limits."
+        "Peripheral infusion: 4 mg in 250 mL NS (16 mcg/mL). Dedicated line only; follow local peripheral‑use limits.",
+      predeterminedDoses: [0.05, 0.1, 0.15, 0.2, 0.25],
+      useHeight: true,
+      requiresDedicatedLine: true
     },
     norad_central: {
       name: "Noradrenaline (Central syringe 60 mL)",
       unitType: "mcg_kg_min",
-      concentrationMcgPerMl: 100, // 6 mg to 60 mL => 100 mcg/mL
+      concentrationMcgPerMl: 100, // 6 mg made up to 60 mL => 100 mcg/mL
       defaultDose: 0.05,
       minDose: 0.01,
       maxDose: 1,
-      defaultWeight: 70,
+      defaultWeight: null,
       prepText:
-        "Central syringe: 6 mg made up to 60 mL with NS or D5W (100 mcg/mL). Dedicated central line."
+        "Central syringe: 6 mg made up to 60 mL with NS or D5W (100 mcg/mL). Dedicated central line.",
+      predeterminedDoses: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 1],
+      useHeight: true,
+      requiresDedicatedLine: true
     },
     isoprenaline: {
       name: "Isoprenaline",
@@ -250,7 +374,21 @@
       minDose: 1,
       maxDose: 10,
       prepText:
-        "Standard bag: 2 mg in 500 mL D5W (4 mcg/mL). Dedicated line. Dose is in mcg/min (no weight)."
+        "Standard bag: 2 mg in 500 mL D5W (4 mcg/mL). Dedicated line. Dose is in mcg/min (no weight).",
+      requiresDedicatedLine: true,
+      // Predefined dosing scale: 1–10 mcg/min. Each entry gives dose and corresponding mL/h for 4 mcg/mL concentration.
+      doseRateTable: [
+        { dose: 1, rate: 15 },
+        { dose: 2, rate: 30 },
+        { dose: 3, rate: 45 },
+        { dose: 4, rate: 60 },
+        { dose: 5, rate: 75 },
+        { dose: 6, rate: 90 },
+        { dose: 7, rate: 105 },
+        { dose: 8, rate: 120 },
+        { dose: 9, rate: 135 },
+        { dose: 10, rate: 150 }
+      ]
     },
     labetalol: {
       name: "Labetalol infusion",
@@ -260,7 +398,8 @@
       minDose: 0.5,
       maxDose: 4,
       prepText:
-        "Standard bag: remove 90 mL from a 250 mL bag, add 200 mg (40 mL) labetalol to make 200 mL (1 mg/mL). Dedicated line."
+        "Standard bag: remove 90 mL from a 250 mL bag, add 200 mg labetalol to make 200 mL (1 mg/mL). Dedicated line.",
+      requiresDedicatedLine: true
     },
     salbutamol_iv: {
       name: "Salbutamol IV",
@@ -270,178 +409,419 @@
       minDose: 2,
       maxDose: 20,
       prepText:
-        "Maintenance infusion: 10 mg in 50 mL NS (200 mcg/mL). Dedicated line. Dose is in mcg/min."
+        "Maintenance infusion: 10 mg in 50 mL NS (200 mcg/mL). Dedicated line. Dose is in mcg/min.",
+      requiresDedicatedLine: true
+    },
+    // Additional drug definitions
+    amiodarone_loading: {
+      name: "Amiodarone – Loading (300 mg in 250 mL over 30 min)",
+      unitType: "preset",
+      infusionVolume: 250,
+      infusionTimeHr: 0.5,
+      prepText:
+        "Loading dose: 300 mg amiodarone in 250 mL D5W over 30 minutes via IV‑micron filter. Rate ≈ 500 mL/h.",
+      requiresDedicatedLine: true
+    },
+    amiodarone_maintenance: {
+      name: "Amiodarone – Maintenance (900 mg in 500 mL over 24 h)",
+      unitType: "preset",
+      infusionVolume: 500,
+      infusionTimeHr: 24,
+      prepText:
+        "Maintenance dose: 900 mg amiodarone in 500 mL D5W over 24 hours via IV‑micron filter. Rate ≈ 21 mL/h.",
+      requiresDedicatedLine: true
+    },
+    magnesium_2g: {
+      name: "Magnesium Sulphate 2 g",
+      unitType: "preset",
+      infusionVolume: 50,
+      infusionTimeHr: 0.5,
+      prepText:
+        "2 g magnesium: Use 4 mL of 50% or 10 mL of 20% solution, dilute to 50 mL with normal saline and infuse over 30 minutes (≈100 mL/h)."
+    },
+    magnesium_24mmol: {
+      name: "Magnesium Sulphate 24 mmol",
+      unitType: "preset",
+      infusionVolume: 60,
+      infusionTimeHr: 24,
+      prepText:
+        "24 mmol magnesium: Use 6 mL of 50% or 15 mL of 20% solution, dilute up to 60 mL with normal saline and infuse over 24 hours (≈2.5 mL/h)."
+    },
+    potassium_chloride_std: {
+      name: "Potassium Chloride – Standard (40 mmol in 1000 mL)",
+      unitType: "mmol_hr",
+      concentrationMmolPerMl: 0.04, // 40 mmol / 1000 mL
+      defaultDose: 10,
+      minDose: 1,
+      maxDose: 40,
+      prepText:
+        "Standard dilution: 40 mmol (20 mL of 15% KCl) in 1000 mL. Enter dose in mmol/hr (max 10–20 mmol/hr typical)."
+    },
+    potassium_chloride_restricted: {
+      name: "Potassium Chloride – Fluid restricted (40 mmol in 500 mL)",
+      unitType: "mmol_hr",
+      concentrationMmolPerMl: 0.08, // 40 mmol / 500 mL
+      defaultDose: 10,
+      minDose: 1,
+      maxDose: 40,
+      prepText:
+        "Fluid restricted dilution: 40 mmol in 500 mL. Enter dose in mmol/hr (max 10–20 mmol/hr typical)."
+    },
+    potassium_chloride_high: {
+      name: "Potassium Chloride – High concentration (40 mmol in 100 mL)",
+      unitType: "mmol_hr",
+      concentrationMmolPerMl: 0.4, // 40 mmol / 100 mL
+      defaultDose: 10,
+      minDose: 1,
+      maxDose: 40,
+      prepText:
+        "High concentration: 40 mmol in 100 mL (requires dedicated line). Enter dose in mmol/hr (max 40 mmol/hr = 100 mL/h).",
+      requiresDedicatedLine: true
+    }
+    ,
+    // Lidocaine maintenance infusion for ventricular arrhythmias
+    lidocaine_maintenance: {
+      name: "Lidocaine – Ventricular arrhythmia maintenance",
+      unitType: "schedule",
+      // Phases specify the pump rate in mL/h and the duration of each phase in hours.
+      // A null duration indicates that the final phase continues until the bag is finished or per clinician instructions.
+      phases: [
+        { rate: 120, duration: 0.5 }, // first 30 minutes at 120 mL/h
+        { rate: 60, duration: 2 },    // next 2 hours at 60 mL/h
+        { rate: 30, duration: null }   // ongoing at 30 mL/h
+      ],
+      prepText:
+        "Maintenance infusion: remove 50 mL from a 500 mL D5W bag and add 1000 mg (50 mL) lidocaine. Recommended schedule: 120 mL/h for 30 min, 60 mL/h for 2 h, then 30 mL/h thereafter.",
+      requiresDedicatedLine: true
+    },
+    // Levetiracetam (Keppra®) infusion: 500–1500 mg diluted in 100 mL over 15 minutes
+    levetiracetam: {
+      name: "Levetiracetam (Keppra)",
+      unitType: "preset",
+      infusionVolume: 100,
+      infusionTimeHr: 0.25,
+      prepText:
+        "Levetiracetam 500–1500 mg diluted in 100 mL NS/D5W/CSL and infused over 15 minutes. Typical rate ≈ 400 mL/h."
+    },
+    // Phosphate infusion (Addiphos®). 15 mmol (7.5 mL Addiphos) in 250 mL => 0.06 mmol/mL concentration.
+    phosphate_addiphos: {
+      name: "Phosphate (Addiphos)",
+      unitType: "mmol_hr",
+      concentrationMmolPerMl: 0.06,
+      defaultDose: 3,
+      minDose: 1,
+      maxDose: 5,
+      prepText:
+        "Phosphate Addiphos: 15 mmol (7.5 mL) diluted in 250 mL NS or D5W (0.06 mmol/mL). Typical infusion over 4–6 hours equates to ~3–3.75 mmol/hr. Enter dose in mmol/hr."
     }
   };
 
+  // Called when the selected drug changes.  Adjusts the form controls for the
+  // selected configuration: shows/hides weight/height inputs, updates labels
+  // and defaults, and resets the results panel.  Also triggers building the
+  // Noradrenaline dosing table for those drugs that require it.
   function setDrugDefaults() {
     const select = document.getElementById("drugSelect");
     const key = select.value;
     const config = drugConfigs[key];
-    if (!config) {
-      return;
-    }
-
     const doseLabel = document.getElementById("doseLabel");
+    const concentrationLabel = document.getElementById("concentrationLabel");
+    const standardConcEl = document.getElementById("standardConcentration");
+    const prepEl = document.getElementById("prepText");
     const weightGroup = document.getElementById("weightGroup");
-    const concLabel = document.getElementById("concentrationLabel");
-    const standardConc = document.getElementById("standardConcentration");
-    const prepText = document.getElementById("prepText");
+    const heightGroup = document.getElementById("heightGroup");
+    const doseGroup = document.getElementById("doseGroup");
+    const concGroup = document.getElementById("concGroup");
+    const dedicatedAlert = document.getElementById("dedicatedLineAlert");
+    const doseRateContainer = document.getElementById("doseRateTableContainer");
+    const doseRateTable = document.getElementById("doseRateTable");
 
-    if (config.unitType === "mcg_kg_min") {
-      doseLabel.textContent = "Target dose (mcg/kg/min)";
-      weightGroup.style.display = "";
-    } else if (config.unitType === "mcg_min") {
-      doseLabel.textContent = "Target dose (mcg/min)";
-      weightGroup.style.display = "none";
-    } else {
-      doseLabel.textContent = "Target dose (mg/min)";
-      weightGroup.style.display = "none";
-    }
-
-    if (config.unitType === "mg_min") {
-      concLabel.textContent = "Custom concentration (mg/mL, optional)";
-      standardConc.textContent = config.concentrationMgPerMl + " mg/mL";
-    } else {
-      concLabel.textContent = "Custom concentration (mcg/mL, optional)";
-      standardConc.textContent = config.concentrationMcgPerMl + " mcg/mL";
-    }
-
-    document.getElementById("doseInput").value =
-      typeof config.defaultDose === "number" ? config.defaultDose : "";
-    document.getElementById("weightInput").value =
-      typeof config.defaultWeight === "number" ? config.defaultWeight : "";
-    document.getElementById("concentrationInput").value = "";
-
-    prepText.textContent = config.prepText || "";
-
+    // Reset fields
     document.getElementById("results").style.display = "none";
     document.getElementById("error").textContent = "";
+    document.getElementById("resultMain").textContent = "";
+    document.getElementById("summaryText").textContent = "";
+    document.getElementById("doseInput").value = "";
+    document.getElementById("weightInput").value = "";
+    document.getElementById("concentrationInput").value = "";
+    document.getElementById("heightInput").value = "";
+
+    // Apply configuration defaults
+    if (config) {
+      prepEl.textContent = config.prepText || "";
+      // Dedicated line warning
+      if (config.requiresDedicatedLine) {
+        dedicatedAlert.style.display = "";
+      } else {
+        dedicatedAlert.style.display = "none";
+      }
+      // Height input toggle
+      if (config.useHeight) {
+        heightGroup.style.display = "";
+      } else {
+        heightGroup.style.display = "none";
+      }
+      // Weight input based on unit type
+      if (config.unitType === "mcg_kg_min") {
+        weightGroup.style.display = config.useHeight ? "none" : "";
+        doseLabel.textContent = "Target dose (mcg/kg/min)";
+      } else if (config.unitType === "mcg_min") {
+        weightGroup.style.display = "none";
+        doseLabel.textContent = "Target dose (mcg/min)";
+      } else if (config.unitType === "mg_min") {
+        weightGroup.style.display = "none";
+        doseLabel.textContent = "Target dose (mg/min)";
+      } else if (config.unitType === "mmol_hr") {
+        weightGroup.style.display = "none";
+        doseLabel.textContent = "Dose (mmol/hr)";
+      } else {
+        // preset
+        weightGroup.style.display = "none";
+        doseGroup.style.display = "none";
+      }
+      // Dose group visibility
+      if (config.unitType === "preset" || config.unitType === "schedule") {
+        doseGroup.style.display = "none";
+      } else {
+        doseGroup.style.display = "";
+      }
+      // Concentration group handling
+      if (config.unitType === "preset" || config.unitType === "schedule") {
+        concGroup.style.display = "none";
+        // For fixed regimens or schedules, the concept of a "standard" concentration doesn't apply
+        standardConcEl.textContent = "N/A";
+      } else if (config.unitType === "mmol_hr") {
+        concentrationLabel.textContent = "Custom concentration (mmol/mL, optional)";
+        standardConcEl.textContent = (config.concentrationMmolPerMl + " mmol/mL");
+        concGroup.style.display = "";
+      } else if (config.unitType === "mg_min") {
+        concentrationLabel.textContent = "Custom concentration (mg/mL, optional)";
+        if (typeof config.concentrationMgPerMl !== "undefined") {
+          standardConcEl.textContent = config.concentrationMgPerMl + " mg/mL";
+        } else {
+          standardConcEl.textContent = "";
+        }
+        concGroup.style.display = "";
+      } else {
+        // mcg based
+        concentrationLabel.textContent = "Custom concentration (mcg/mL, optional)";
+        if (typeof config.concentrationMcgPerMl !== "undefined") {
+          standardConcEl.textContent = config.concentrationMcgPerMl + " mcg/mL";
+        } else {
+          standardConcEl.textContent = "";
+        }
+        concGroup.style.display = "";
+      }
+      // Fill default dose and weight
+      if (config.defaultDose) {
+        document.getElementById("doseInput").value = config.defaultDose;
+      }
+      if (config.defaultWeight) {
+        document.getElementById("weightInput").value = config.defaultWeight;
+      }
+      // Build Norad table if necessary
+      if (config.useHeight && (key === 'norad_peripheral' || key === 'norad_central')) {
+        buildNoradTable(key);
+        document.getElementById("noradTableContainer").style.display = "";
+      } else {
+        document.getElementById("noradTableContainer").style.display = "none";
+        document.getElementById("noradTable").innerHTML = "";
+      }
+      // Build simple dose→rate table if present
+      if (Array.isArray(config.doseRateTable)) {
+        buildDoseRateTable(key);
+        doseRateContainer.style.display = "";
+      } else {
+        doseRateContainer.style.display = "none";
+        doseRateTable.innerHTML = "";
+      }
+    }
   }
 
+  // Build a table of infusion rates for Noradrenaline based on height and predetermined doses.
+  function buildNoradTable(key) {
+    const table = document.getElementById("noradTable");
+    table.innerHTML = "";
+    const config = drugConfigs[key];
+    if (!config || !config.predeterminedDoses) return;
+    const doses = config.predeterminedDoses;
+    // Header
+    const theadRow = document.createElement("tr");
+    const firstTh = document.createElement("th");
+    firstTh.textContent = "Height (cm)";
+    theadRow.appendChild(firstTh);
+    const weightTh = document.createElement("th");
+    weightTh.textContent = "Ideal weight (kg)";
+    theadRow.appendChild(weightTh);
+    doses.forEach(dose => {
+      const th = document.createElement("th");
+      th.textContent = dose.toFixed(3) + " µg/kg/min";
+      theadRow.appendChild(th);
+    });
+    table.appendChild(theadRow);
+    // Rows
+    const heights = Object.keys(heightToIBW).map(h => parseInt(h, 10)).filter(h => h >= 140 && h <= 195).sort((a,b) => a - b);
+    heights.forEach(h => {
+      const tr = document.createElement("tr");
+      const htd = document.createElement("td");
+      htd.textContent = h;
+      tr.appendChild(htd);
+      const wtd = document.createElement("td");
+      const ibw = heightToIBW[h];
+      wtd.textContent = ibw.toFixed(1);
+      tr.appendChild(wtd);
+      doses.forEach(dose => {
+        const td = document.createElement("td");
+        const rate = (dose * ibw * 60) / config.concentrationMcgPerMl;
+        td.textContent = rate.toFixed(1);
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+  }
+
+  // Build a simple dose → infusion rate table.  This helper is used for drugs (e.g., Isoprenaline)
+  // that have a fixed dosing scale independent of patient weight.  The configuration must define
+  // `doseRateTable` as an array of objects with `dose` and `rate` properties.
+  function buildDoseRateTable(key) {
+    const table = document.getElementById("doseRateTable");
+    table.innerHTML = "";
+    const config = drugConfigs[key];
+    if (!config || !Array.isArray(config.doseRateTable)) return;
+    // Header row
+    const theadRow = document.createElement("tr");
+    const doseTh = document.createElement("th");
+    doseTh.textContent = "Dose (µg/min)";
+    theadRow.appendChild(doseTh);
+    const rateTh = document.createElement("th");
+    rateTh.textContent = "Infusion rate (mL/h)";
+    theadRow.appendChild(rateTh);
+    table.appendChild(theadRow);
+    // Data rows
+    config.doseRateTable.forEach(entry => {
+      const tr = document.createElement("tr");
+      const doseTd = document.createElement("td");
+      doseTd.textContent = entry.dose;
+      tr.appendChild(doseTd);
+      const rateTd = document.createElement("td");
+      rateTd.textContent = entry.rate;
+      tr.appendChild(rateTd);
+      table.appendChild(tr);
+    });
+  }
+
+  // Primary calculation logic.  Handles weight‑based drugs, electrolytes, and fixed regimens.
   function calculateRate() {
     const select = document.getElementById("drugSelect");
     const key = select.value;
     const config = drugConfigs[key];
     const errorEl = document.getElementById("error");
     const resultsEl = document.getElementById("results");
-    const rateEl = document.getElementById("rateOutput");
+    const resultMainEl = document.getElementById("resultMain");
     const summaryEl = document.getElementById("summaryText");
-
     errorEl.textContent = "";
     resultsEl.style.display = "none";
-
+    resultMainEl.textContent = "";
+    summaryEl.textContent = "";
     if (!config) {
       errorEl.textContent = "Unknown drug configuration.";
       return;
     }
-
-    const doseInput = parseFloat(
-      document.getElementById("doseInput").value
-    );
-    if (isNaN(doseInput) || doseInput <= 0) {
+    // Scheduled multi‑phase regimens (e.g., lidocaine maintenance)
+    if (config.unitType === "schedule") {
+      // Build a human‑readable schedule string. For phases with finite duration, express in hours or minutes.
+      const parts = config.phases.map((phase, idx) => {
+        const dur = phase.duration;
+        const rate = phase.rate;
+        if (dur == null) {
+          return rate + " mL/h thereafter";
+        }
+        // Express durations less than 1 hour in minutes for clarity
+        if (dur < 1) {
+          const mins = dur * 60;
+          return rate + " mL/h for " + mins + " min";
+        }
+        return rate + " mL/h for " + dur + " h";
+      });
+      resultMainEl.textContent = "Follow infusion schedule";
+      summaryEl.textContent = config.name + ": " + parts.join(", then ") + ". Always adhere to protocol.";
+      resultsEl.style.display = "block";
+      return;
+    }
+    // Preset regimens
+    if (config.unitType === "preset") {
+      const rate = config.infusionVolume / config.infusionTimeHr;
+      resultMainEl.textContent = "Set pump to approximately " + rate.toFixed(1) + " mL/h";
+      summaryEl.textContent = config.name + ": infuse " + config.infusionVolume + " mL over " + config.infusionTimeHr + " h (≈" + rate.toFixed(1) + " mL/h). Always follow your protocol.";
+      resultsEl.style.display = "block";
+      return;
+    }
+    // Dose input
+    const doseInputVal = parseFloat(document.getElementById("doseInput").value);
+    if (isNaN(doseInputVal) || doseInputVal <= 0) {
       errorEl.textContent = "Please enter a valid target dose.";
       return;
     }
-
     let weight = null;
+    // Determine weight
     if (config.unitType === "mcg_kg_min") {
-      weight = parseFloat(
-        document.getElementById("weightInput").value
-      );
-      if (isNaN(weight) || weight <= 0) {
-        errorEl.textContent = "Please enter a valid patient weight.";
-        return;
+      if (config.useHeight) {
+        const heightVal = parseFloat(document.getElementById("heightInput").value);
+        if (isNaN(heightVal) || heightVal <= 0) {
+          errorEl.textContent = "Please enter a valid patient height.";
+          return;
+        }
+        weight = estimateIBW(heightVal);
+      } else {
+        const weightVal = parseFloat(document.getElementById("weightInput").value);
+        if (isNaN(weightVal) || weightVal <= 0) {
+          errorEl.textContent = "Please enter a valid patient weight.";
+          return;
+        }
+        weight = weightVal;
       }
     }
-
-    const concOverride = parseFloat(
-      document.getElementById("concentrationInput").value
-    );
-
+    // Concentration override
+    const concOverride = parseFloat(document.getElementById("concentrationInput").value);
     let rateMlPerHr;
-    let concUsed;
-    let concUnit;
     let summary;
-
-    if (config.unitType === "mg_min") {
-      // mg/min with mg/mL concentration
-      const standardConcMgPerMl = config.concentrationMgPerMl;
-      const concMgPerMl =
-        !isNaN(concOverride) && concOverride > 0
-          ? concOverride
-          : standardConcMgPerMl;
-      rateMlPerHr = (doseInput * 60) / concMgPerMl;
-      concUsed = concMgPerMl;
-      concUnit = "mg/mL";
-      summary =
-        config.name +
-        ": dose " +
-        doseInput +
-        " mg/min, concentration " +
-        concMgPerMl +
-        " mg/mL ⇒ pump rate ≈ " +
-        rateMlPerHr.toFixed(1) +
-        " mL/h.";
-    } else if (config.unitType === "mcg_kg_min") {
-      // micrograms/kg/min with mcg/mL concentration
-      const standardConcMcgPerMl = config.concentrationMcgPerMl;
-      const concMcgPerMl =
-        !isNaN(concOverride) && concOverride > 0
-          ? concOverride
-          : standardConcMcgPerMl;
-      rateMlPerHr = (doseInput * weight * 60) / concMcgPerMl;
-      concUsed = concMcgPerMl;
-      concUnit = "mcg/mL";
-      summary =
-        config.name +
-        ": dose " +
-        doseInput +
-        " mcg/kg/min at " +
-        weight +
-        " kg, concentration " +
-        concMcgPerMl +
-        " mcg/mL ⇒ pump rate ≈ " +
-        rateMlPerHr.toFixed(1) +
-        " mL/h.";
+    if (config.unitType === "mcg_kg_min") {
+      const standardConc = config.concentrationMcgPerMl;
+      const concMcgPerMl = (!isNaN(concOverride) && concOverride > 0) ? concOverride : standardConc;
+      rateMlPerHr = (doseInputVal * weight * 60) / concMcgPerMl;
+      summary = config.name + ": dose " + doseInputVal + " mcg/kg/min at " + weight.toFixed(1) + " kg, concentration " + concMcgPerMl + " mcg/mL → pump rate ≈ " + rateMlPerHr.toFixed(1) + " mL/h.";
+    } else if (config.unitType === "mcg_min") {
+      const standardConc = config.concentrationMcgPerMl;
+      const concMcgPerMl = (!isNaN(concOverride) && concOverride > 0) ? concOverride : standardConc;
+      rateMlPerHr = (doseInputVal * 60) / concMcgPerMl;
+      summary = config.name + ": dose " + doseInputVal + " mcg/min, concentration " + concMcgPerMl + " mcg/mL → pump rate ≈ " + rateMlPerHr.toFixed(1) + " mL/h.";
+    } else if (config.unitType === "mg_min") {
+      const standardConc = config.concentrationMgPerMl;
+      const concMgPerMl = (!isNaN(concOverride) && concOverride > 0) ? concOverride : standardConc;
+      rateMlPerHr = (doseInputVal * 60) / concMgPerMl;
+      summary = config.name + ": dose " + doseInputVal + " mg/min, concentration " + concMgPerMl + " mg/mL → pump rate ≈ " + rateMlPerHr.toFixed(1) + " mL/h.";
+    } else if (config.unitType === "mmol_hr") {
+      const standardConc = config.concentrationMmolPerMl;
+      const concMmolPerMl = (!isNaN(concOverride) && concOverride > 0) ? concOverride : standardConc;
+      rateMlPerHr = doseInputVal / concMmolPerMl;
+      summary = config.name + ": dose " + doseInputVal + " mmol/hr, concentration " + concMmolPerMl + " mmol/mL → pump rate ≈ " + rateMlPerHr.toFixed(1) + " mL/h.";
     } else {
-      // mcg/min with mcg/mL concentration
-      const standardConcMcgPerMl = config.concentrationMcgPerMl;
-      const concMcgPerMl =
-        !isNaN(concOverride) && concOverride > 0
-          ? concOverride
-          : standardConcMcgPerMl;
-      rateMlPerHr = (doseInput * 60) / concMcgPerMl;
-      concUsed = concMcgPerMl;
-      concUnit = "mcg/mL";
-      summary =
-        config.name +
-        ": dose " +
-        doseInput +
-        " mcg/min, concentration " +
-        concMcgPerMl +
-        " mcg/mL ⇒ pump rate ≈ " +
-        rateMlPerHr.toFixed(1) +
-        " mL/h.";
-    }
-
-    if (!isFinite(rateMlPerHr) || rateMlPerHr <= 0) {
-      errorEl.textContent =
-        "Calculation error – please check the dose and concentration values.";
+      errorEl.textContent = "Unsupported drug type.";
       return;
     }
-
-    rateEl.textContent = rateMlPerHr.toFixed(1);
-    summaryEl.textContent = summary + " Always cross-check with your local protocol.";
+    if (!isFinite(rateMlPerHr) || rateMlPerHr <= 0) {
+      errorEl.textContent = "Calculation error – please check the dose, weight and concentration values.";
+      return;
+    }
+    resultMainEl.textContent = "Set pump to approximately " + rateMlPerHr.toFixed(1) + " mL/h";
+    summaryEl.textContent = summary + " Always cross‑check with your local protocol.";
     resultsEl.style.display = "block";
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     const select = document.getElementById("drugSelect");
     select.addEventListener("change", setDrugDefaults);
-    document
-      .getElementById("calculateBtn")
-      .addEventListener("click", calculateRate);
+    document.getElementById("calculateBtn").addEventListener("click", calculateRate);
     setDrugDefaults();
   });
 </script>
