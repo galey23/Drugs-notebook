@@ -21,45 +21,49 @@
     body {
       margin: 0;
       padding: 1.5rem;
-      background: #f4f5f7;
+      /* Dark navy background inspired by the Rapid Response Team palette */
+      background: #0B1A2C;
+      color: #E0E2D7;
     }
     .app {
       max-width: 900px;
       margin: 0 auto;
-      background: #ffffff;
+      /* Slightly lighter navy card */
+      background: #032635;
       padding: 1.5rem;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
     h1 {
       font-size: 1.4rem;
       margin-top: 0;
       margin-bottom: 0.5rem;
+      color: #F6F6CA;
     }
     p {
       margin: 0.25rem 0;
       font-size: 0.9rem;
-      color: #444;
+      color: #E0E2D7;
     }
     .warning {
       margin-top: 0.5rem;
       padding: 0.5rem 0.75rem;
-      background: #fff7e6;
-      border-left: 4px solid #faad14;
+      background: #527572;
+      border-left: 4px solid #507685;
       font-size: 0.85rem;
+      color: #F6F6CA;
     }
 
     /*
      * A dedicated‑line alert shares the same structure as the base warning
-     * banner but uses a higher contrast palette.  The increased font
-     * weight and slightly larger size help call attention to the fact
-     * that these drugs must run through their own IV access.  Feel free
-     * to adjust colours here if your local branding guidelines differ.
+     * banner but uses a high‑contrast red palette.  The increased font
+     * weight helps call attention to the fact that these drugs must run
+     * through their own IV access.
      */
     #dedicatedLineAlert {
-      background: #fff1f0;
-      border-left: 4px solid #ff4d4f;
-      color: #a8071a;
+      background: #632E2E;
+      border-left: 4px solid #A8071A;
+      color: #F6F6CA;
       font-size: 0.9rem;
       font-weight: 600;
     }
@@ -68,13 +72,16 @@
       font-size: 0.85rem;
       margin-bottom: 0.25rem;
       font-weight: 600;
+      color: #F6F6CA;
     }
     select, input[type="number"] {
       width: 100%;
       padding: 0.4rem 0.5rem;
       border-radius: 4px;
-      border: 1px solid #d9d9d9;
+      border: 1px solid #507685;
       font-size: 0.9rem;
+      background: #0B1A2C;
+      color: #E0E2D7;
     }
     .row {
       display: flex;
@@ -87,12 +94,12 @@
     }
     .muted {
       font-size: 0.8rem;
-      color: #777;
+      color: #A2A3A6;
     }
     .standard {
       margin-top: 0.5rem;
       font-size: 0.85rem;
-      color: #333;
+      color: #E0E2D7;
     }
     button {
       margin-top: 1rem;
@@ -102,8 +109,8 @@
       cursor: pointer;
       font-size: 0.95rem;
       font-weight: 600;
-      background: #1677ff;
-      color: #fff;
+      background: #507685;
+      color: #F6F6CA;
     }
     button:active {
       transform: translateY(1px);
@@ -111,16 +118,18 @@
     .results {
       margin-top: 1.25rem;
       padding-top: 1rem;
-      border-top: 1px solid #e5e5e5;
+      border-top: 1px solid #507685;
     }
     .results h2 {
       font-size: 1.1rem;
       margin: 0 0 0.5rem;
+      color: #F6F6CA;
     }
     .result-main {
       font-size: 1.2rem;
       font-weight: 700;
       margin-bottom: 0.25rem;
+      color: #F6F6CA;
     }
     .result-main span {
       font-size: 1.5rem;
@@ -128,18 +137,20 @@
     .result-text {
       font-size: 0.9rem;
       margin-top: 0.5rem;
+      color: #E0E2D7;
     }
     .error {
       margin-top: 0.5rem;
-      color: #d4380d;
+      color: #FF6E6E;
       font-size: 0.85rem;
     }
     .prep {
       margin-top: 0.5rem;
       padding: 0.5rem 0.75rem;
-      background: #f0f5ff;
-      border-left: 4px solid #1677ff;
+      background: #0B1A2C;
+      border-left: 4px solid #507685;
       font-size: 0.85rem;
+      color: #E0E2D7;
     }
     table.infusion-table {
       width: 100%;
@@ -149,13 +160,15 @@
     }
     table.infusion-table th,
     table.infusion-table td {
-      border: 1px solid #d9d9d9;
+      border: 1px solid #507685;
       padding: 0.3rem 0.4rem;
       text-align: center;
+      color: #E0E2D7;
     }
     table.infusion-table th {
-      background: #fafafa;
+      background: #507685;
       font-weight: 600;
+      color: #F6F6CA;
     }
     @media (max-width: 600px) {
       body {
@@ -200,6 +213,28 @@
         <option value="lidocaine_maintenance">Lidocaine – Ventricular arrhythmia maintenance</option>
         <option value="levetiracetam">Levetiracetam (Keppra)</option>
         <option value="phosphate_addiphos">Phosphate (Addiphos)</option>
+        <!-- newly added drugs from later sections of the RRN guide -->
+        <option value="digifab">DigiFab (digoxin‑Fab antidote)</option>
+        <option value="verapamil_iv">Verapamil IV</option>
+        <option value="vitamin_k">Vitamin K (Konakion)</option>
+        <option value="heparin">Heparin infusion</option>
+        <option value="protamine">Protamine infusion</option>
+        <option value="tranexamic_acid">Tranexamic Acid</option>
+        <option value="hypertonic_saline">Hypertonic Saline (3% infusion)</option>
+        <option value="sodium_bicarbonate">Sodium Bicarbonate 8.4%</option>
+        <!-- Newly added informational or bolus drugs -->
+        <option value="adenosine">Adenosine (SVT bolus)</option>
+        <option value="adrenaline_im">Adrenaline 1:1000 (IM)</option>
+        <option value="atracurium">Atracurium</option>
+        <option value="atropine">Atropine</option>
+        <option value="calcium_chloride">Calcium Chloride 10%</option>
+        <option value="dexamethasone">Dexamethasone</option>
+        <option value="doxapram">Doxapram infusion</option>
+        <option value="ephedrine">Ephedrine</option>
+        <option value="etomidate">Etomidate</option>
+        <option value="flumazenil">Flumazenil</option>
+        <option value="glucagon">Glucagon</option>
+        <option value="hyperkalaemia_regimen">Hyperkalaemia insulin/dextrose</option>
       </select>
     </div>
   </div>
@@ -208,7 +243,7 @@
   <div class="prep" id="prepText"></div>
 
   <!-- Dedicated line alert.  This banner appears only when a drug requires a dedicated intravenous line. -->
-  <div id="dedicatedLineAlert" class="warning" style="display:none; background:#fff1f0; border-left-color:#ff4d4f; color:#a8071a;">
+  <div id="dedicatedLineAlert" class="warning" style="display:none;">
     <strong>Dedicated line required:</strong> this drug must be administered via its own IV line.
   </div>
   <p class="standard">
@@ -258,6 +293,18 @@
   <div id="doseRateTableContainer" style="display:none;">
     <h2>Recommended infusion rates</h2>
     <table id="doseRateTable" class="infusion-table"></table>
+  </div>
+
+  <!-- Weight‑based infusion table.  Used for drugs like Heparin that have weight ranges mapped to rates. -->
+  <div id="weightTableContainer" style="display:none;">
+    <h2>Recommended infusion rates by weight</h2>
+    <table id="weightTable" class="infusion-table"></table>
+  </div>
+
+  <!-- Weight‑dose table for catecholamines like Dobutamine and Dopamine.  Shows infusion rates for common weights and dose levels. -->
+  <div id="doseWeightTableContainer" style="display:none;">
+    <h2>Recommended infusion rates by weight and dose</h2>
+    <table id="doseWeightTable" class="infusion-table"></table>
   </div>
 
   <div class="warning">
@@ -325,6 +372,10 @@
       prepText:
         "Standard bag: 250 mg in 250 mL NS or D5W (1 mg/mL = 1000 mcg/mL). Use a dedicated line.",
       requiresDedicatedLine: true
+      ,
+      // Predefined weights and doses for quick reference tables (50, 70, 90 kg; 2.5, 5, 10 µg/kg/min)
+      predeterminedWeights: [50, 70, 90],
+      predeterminedDoses: [2.5, 5, 10]
     },
     dopamine: {
       name: "Dopamine",
@@ -337,6 +388,10 @@
       prepText:
         "Standard bag: 400 mg in 250 mL NS or D5W (1600 mcg/mL). Use a dedicated line.",
       requiresDedicatedLine: true
+      ,
+      // Predefined weights and doses (50, 70, 90 kg; 2.5–25 µg/kg/min) for reference table
+      predeterminedWeights: [50, 70, 90],
+      predeterminedDoses: [2.5, 5, 10, 15, 20, 25]
     },
     norad_peripheral: {
       name: "Noradrenaline (Peripheral)",
@@ -400,6 +455,13 @@
       prepText:
         "Standard bag: remove 90 mL from a 250 mL bag, add 200 mg labetalol to make 200 mL (1 mg/mL). Dedicated line.",
       requiresDedicatedLine: true
+      ,
+      // Common bolus rates from the guideline: 1 mg/min, 2 mg/min and 4 mg/min
+      doseRateTable: [
+        { dose: 1, rate: 60 },
+        { dose: 2, rate: 120 },
+        { dose: 4, rate: 240 }
+      ]
     },
     salbutamol_iv: {
       name: "Salbutamol IV",
@@ -410,7 +472,16 @@
       maxDose: 20,
       prepText:
         "Maintenance infusion: 10 mg in 50 mL NS (200 mcg/mL). Dedicated line. Dose is in mcg/min.",
-      requiresDedicatedLine: true
+    requiresDedicatedLine: true,
+      // Predefined dosing scale for maintenance infusion.  Dose in mcg/min mapped to mL/h for 200 mcg/mL concentration.
+      doseRateTable: [
+        { dose: 2, rate: 0.6 },
+        { dose: 3, rate: 0.9 },
+        { dose: 5, rate: 1.5 },
+        { dose: 10, rate: 3.0 },
+        { dose: 15, rate: 4.5 },
+        { dose: 20, rate: 6.0 }
+      ]
     },
     // Additional drug definitions
     amiodarone_loading: {
@@ -513,6 +584,275 @@
       maxDose: 5,
       prepText:
         "Phosphate Addiphos: 15 mmol (7.5 mL) diluted in 250 mL NS or D5W (0.06 mmol/mL). Typical infusion over 4–6 hours equates to ~3–3.75 mmol/hr. Enter dose in mmol/hr."
+    },
+
+    // Additional drugs from the later pages of the guide
+    digifab: {
+      name: "DigiFab (digoxin‑Fab antidote)",
+      unitType: "preset",
+      infusionVolume: 50,
+      infusionTimeHr: 0.5,
+      prepText: "Reconstitute a 40 mg vial with 4 mL WFI to make 10 mg/mL. Dilute the calculated dose up to 50 mL with NS and infuse over 30 min. Dedicated lines are preferred.",
+      requiresDedicatedLine: true
+    },
+    verapamil_iv: {
+      name: "Verapamil IV",
+      unitType: "preset",
+      infusionVolume: 100,
+      infusionTimeHr: 1,
+      prepText: "Initial 5–10 mg IV over 2–3 min (may repeat once after 5–10 min). Alternatively, dilute the dose in 100 mL NS or D5W and infuse over 1 h. This tool uses the 100 mL over 1 h regimen.",
+      requiresDedicatedLine: false
+    },
+    vitamin_k: {
+      name: "Vitamin K (Konakion)",
+      unitType: "preset",
+      infusionVolume: 100,
+      infusionTimeHr: 0.5,
+      prepText: "Slow IV infusion of 1–10 mg diluted in 50–100 mL D5W. Infuse over at least 10–30 min. This tool assumes 100 mL over 30 min."
+    },
+    heparin: {
+      name: "Heparin infusion",
+      unitType: "weight_table",
+      weightTable: [
+        { minWeight: 40, maxWeight: 49, unitsPerHr: 800, rateMlPerHr: 4.8 },
+        { minWeight: 50, maxWeight: 59, unitsPerHr: 900, rateMlPerHr: 5.4 },
+        { minWeight: 60, maxWeight: 69, unitsPerHr: 1100, rateMlPerHr: 6.6 },
+        { minWeight: 70, maxWeight: 79, unitsPerHr: 1200, rateMlPerHr: 7.2 },
+        { minWeight: 80, maxWeight: 89, unitsPerHr: 1400, rateMlPerHr: 8.4 },
+        { minWeight: 90, maxWeight: 99, unitsPerHr: 1600, rateMlPerHr: 9.6 },
+        { minWeight: 100, maxWeight: 109, unitsPerHr: 1800, rateMlPerHr: 10.8 },
+        { minWeight: 110, maxWeight: 119, unitsPerHr: 2000, rateMlPerHr: 12.0 },
+        { minWeight: 120, maxWeight: 129, unitsPerHr: 2200, rateMlPerHr: 13.2 },
+        { minWeight: 130, maxWeight: 139, unitsPerHr: 2400, rateMlPerHr: 14.4 }
+      ],
+      prepText: "Maintenance infusion: prepare a standard infusion by withdrawing 2 mL of 5,000 units/mL heparin and diluting in 58 mL saline (60 mL total, 100 units/mL). Use the weight‑based table to determine the appropriate rate.",
+      requiresDedicatedLine: false
+    },
+    protamine: {
+      name: "Protamine infusion",
+      unitType: "preset",
+      infusionVolume: 50,
+      infusionTimeHr: 0.5,
+      prepText: "Protamine sulfate infusion: a typical dose of 50 mg diluted in 50 mL NS and infused over 30 min. Always verify dosing with current guidelines.",
+      requiresDedicatedLine: false
+    },
+    tranexamic_acid: {
+      name: "Tranexamic Acid",
+      unitType: "preset",
+      infusionVolume: 100,
+      infusionTimeHr: 0.3333,
+      prepText: "For generalised fibrinolysis, administer 1 g tranexamic acid diluted in 100 mL NS slowly over 20 min. Dedicated lines are preferred.",
+      requiresDedicatedLine: true
+    },
+    hypertonic_saline: {
+      name: "Hypertonic Saline (3%)",
+      unitType: "preset",
+      infusionVolume: 108,
+      infusionTimeHr: 1,
+      prepText: "Prepare 3% hypertonic saline by adding 8 mL of 30% sodium chloride to 100 mL NS to make ~108 mL final volume. Administer into a large vein at a rate not exceeding 100 mL/h. Dedicated line required.",
+      requiresDedicatedLine: true
+    },
+    sodium_bicarbonate: {
+      name: "Sodium Bicarbonate 8.4%",
+      unitType: "preset",
+      infusionVolume: 100,
+      infusionTimeHr: 4,
+      prepText: "For metabolic acidosis, dilute the required dose of 8.4% sodium bicarbonate in D5W and infuse over 4 h. This tool assumes 100 mL over 4 h. Dedicated lines are preferred.",
+      requiresDedicatedLine: true
+    }
+    ,
+    /**
+     * Informational drug entries for bolus administrations and non‑infusion regimens.
+     * These entries use unitType = "info" to indicate that no pump rate calculation
+     * should be performed.  The calculator will display the preparation text and
+     * hide all input fields when these drugs are selected.
+     */
+    adenosine: {
+      name: "Adenosine (SVT bolus)",
+      unitType: "info",
+      prepText:
+        "Initial dose 6 mg rapid IV push via dedicated line followed immediately by a saline flush. If no response, give 12 mg IV push; a third dose of 18 mg may be administered if required. Reversal agent: aminophylline. Dedicated line required.",
+      requiresDedicatedLine: true
+    },
+    adrenaline_im: {
+      name: "Adrenaline 1:1000 (IM)",
+      unitType: "info",
+      prepText:
+        "For anaphylaxis: administer 0.5 mg (0.5 mL) of 1:1000 adrenaline intramuscularly; may repeat every 5 min if needed. For inhaled therapy, nebulise 1 mL of 1:1000 adrenaline in 5 mL NS. Avoid IV administration unless guided by a specialist.",
+      requiresDedicatedLine: false
+    },
+    atracurium: {
+      name: "Atracurium",
+      unitType: "info",
+      prepText:
+        "Neuromuscular blocker for intubation: administer undiluted IV bolus slowly. Dose is determined by the anaesthetist (typically 0.3–0.5 mg/kg). Reversal agent: neostigmine.",
+      requiresDedicatedLine: false
+    },
+    atropine: {
+      name: "Atropine",
+      unitType: "info",
+      prepText:
+        "Treat symptomatic bradycardia: give 0.5 mg IV push; repeat every 3–5 min as needed to a maximum total dose of 3 mg. Reversal agent: physostigmine.",
+      requiresDedicatedLine: false
+    },
+    calcium_chloride: {
+      name: "Calcium Chloride 10%",
+      unitType: "info",
+      prepText:
+        "For severe hyperkalaemia or hypocalcaemia: administer 10 mL of 10 % calcium chloride (1 g) undiluted via a dedicated IV line over 5–10 min. Monitor for extravasation. Reversal: rehydration with normal saline.",
+      requiresDedicatedLine: true
+    },
+    dexamethasone: {
+      name: "Dexamethasone",
+      unitType: "info",
+      prepText:
+        "Administer undiluted 8–16 mg (2–4 mL of 4 mg/mL) IV slowly over 3–5 min for acute asthma, anaphylaxis or elevated intracranial pressure. Contraindications: systemic fungal infection.",
+      requiresDedicatedLine: false
+    },
+    doxapram: {
+      name: "Doxapram infusion",
+      unitType: "mg_min",
+      concentrationMgPerMl: 0.4, // 200 mg in 500 mL => 0.4 mg/mL
+      defaultDose: 1,
+      minDose: 1,
+      maxDose: 4,
+      prepText:
+        "Prepare an infusion by adding 200 mg doxapram to 500 mL NS or D5W (0.4 mg/mL). Start at 1 mg/min (≈150 mL/h). Bolus: 0.5–1 mg/kg may be given up to a total of 2 mg/kg.",
+      requiresDedicatedLine: false
+    },
+    ephedrine: {
+      name: "Ephedrine",
+      unitType: "info",
+      prepText:
+        "To treat hypotension during spinal or epidural anaesthesia: administer 5–10 mg IV bolus of 30 mg/mL solution. May be diluted to 1 mg/mL for titrated dosing. Reversal agent: phentolamine.",
+      requiresDedicatedLine: false
+    },
+    etomidate: {
+      name: "Etomidate",
+      unitType: "info",
+      prepText:
+        "Induction agent for intubation: undiluted 2 mg/mL solution. Typical dose 0.2–0.6 mg/kg IV bolus administered by an anaesthetist. No specific reversal agent.",
+      requiresDedicatedLine: false
+    },
+    flumazenil: {
+      name: "Flumazenil",
+      unitType: "info",
+      prepText:
+        "Benzodiazepine antagonist: give 0.2 mg IV over 15–30 s; repeat doses of 0.1 mg every 60 s up to a maximum of 1 mg. Monitor for resedation.",
+      requiresDedicatedLine: false
+    },
+    glucagon: {
+      name: "Glucagon",
+      unitType: "info",
+      prepText:
+        "Hypoglycaemia treatment: give 1 mg (1 mL) via IM or IV injection. May repeat once after 5 min if the patient does not respond. Provide oral or IV glucose once the patient regains consciousness.",
+      requiresDedicatedLine: false
+    },
+    hyperkalaemia_regimen: {
+      name: "Hyperkalaemia insulin/dextrose",
+      unitType: "preset",
+      infusionVolume: 50,
+      infusionTimeHr: 0.5,
+      prepText:
+        "For hyperkalaemia: mix 50 mL of 50 % dextrose with 0.1 unit/kg Actrapid insulin (maximum 10 units) and infuse over 30 min. Administer in conjunction with other hyperkalaemia treatments.",
+      requiresDedicatedLine: false
+    }
+    ,
+    /**
+     * Intralipid 20%® infusion for local anaesthetic toxicity
+     * – Doses calculated for a 70 kg adult. The bolus should be given undiluted at 100 mL over 2–3 minutes
+     *   and repeated once after 5–10 minutes if required.  Maintenance infusion is 0.25 mL/kg/min.  When using
+     *   the weight‑based maintenance infusion the calculator computes the pump rate in mL/h.
+     *   A new 500 mL bag should be started at 1050 mL/h for a 70 kg adult.  Always verify dosing against
+     *   your local protocol.
+     */
+    intralipid_20: {
+      name: "Intralipid 20%",
+      unitType: "ml_kg_min",
+      // Maintenance dose in mL/kg/min; bolus is not calculated here
+      defaultDose: 0.25,
+      minDose: 0.25,
+      maxDose: 0.25,
+      defaultWeight: 70,
+      prepText:
+        "Administer undiluted. Bolus dose: 100 mL over 2–3 min (repeat once after 5–10 min if needed). Maintenance: 0.25 mL/kg/min; start a new bag at approximately 1050 mL/h for a 70 kg adult.",
+      requiresDedicatedLine: true
+    },
+    /**
+     * Alteplase (tPA) regimen for acute ischaemic stroke.  The total dose is 0.9 mg/kg
+     * (capped at 90 mg).  Ten percent of the total dose is delivered as a bolus over
+     * 2 minutes; the remaining 90 % is infused over 60 minutes.  Rates are calculated
+     * assuming the reconstituted solution is approximately 1 mg/mL (50 mg powder in
+     * 50 mL diluent) – adjust to your local protocol.  Weight entry is required.
+     */
+    alteplase_stroke: {
+      name: "Alteplase – Stroke (weight‑based)",
+      unitType: "alteplase_stroke",
+      prepText:
+        "Total dose 0.9 mg/kg (max 90 mg): give 10 % as bolus over 2 min and the remainder over 60 min. Rates assume 1 mg/mL reconstitution.",
+      requiresDedicatedLine: false
+    },
+    /**
+     * Alteplase regimen for massive pulmonary embolism.  For patients heavier than
+     * 65 kg, a total dose of 100 mg is recommended.  A fixed 10 mg bolus is
+     * delivered over 2 minutes followed by the remainder over 120 minutes.  For
+     * lighter patients (<65 kg) this configuration uses 0.9 mg/kg as the total dose
+     * but still applies a 10 mg bolus.  Rates assume 1 mg/mL reconstitution.
+     */
+    alteplase_pe: {
+      name: "Alteplase – Pulmonary embolism (weight‑based)",
+      unitType: "alteplase_pe",
+      prepText:
+        "For PE: patients > 65 kg receive 100 mg total (10 mg bolus over 2 min, 90 mg over 120 min). For lighter patients, total = 0.9 mg/kg with a 10 mg bolus. Rates assume 1 mg/mL reconstitution.",
+      requiresDedicatedLine: false
+    },
+    /**
+     * Calcium Gluconate regimens.  These entries represent the hyperkalaemia
+     * cardioprotection dose and the loading and maintenance doses for
+     * hypocalcaemia management.  Concentrations are 10 % (100 mg/mL) but the
+     * calculator focuses on total volume and time to derive an approximate pump rate.
+     */
+    calcium_gluconate_cardioprotection: {
+      name: "Calcium Gluconate – Hyperkalaemia cardioprotection",
+      unitType: "preset",
+      infusionVolume: 130,
+      infusionTimeHr: 0.5,
+      prepText:
+        "30 mL of 10 % calcium gluconate mixed in 100 mL NS, infused over 30 min (≈130 mL total).",
+      requiresDedicatedLine: false
+    },
+    calcium_gluconate_loading: {
+      name: "Calcium Gluconate – Hypocalcaemia loading",
+      unitType: "preset",
+      infusionVolume: 120,
+      infusionTimeHr: 0.1667,
+      prepText:
+        "20 mL of 10 % calcium gluconate in 100 mL D5W, infused over 10 min (≈120 mL total).",
+      requiresDedicatedLine: false
+    },
+    calcium_gluconate_maintenance: {
+      name: "Calcium Gluconate – Hypocalcaemia maintenance",
+      unitType: "preset",
+      infusionVolume: 1100,
+      infusionTimeHr: 11,
+      prepText:
+        "100 mL of 10 % calcium gluconate in 1 L D5W/NS (≈1.1 L total). Typical rate 50–100 mL/h; this calculator uses 100 mL/h (11 h total).",
+      requiresDedicatedLine: false
+    },
+    /**
+     * Digoxin infusion.  The guideline recommends diluting 0.5–1.0 mg in up to
+     * 60 mL NS or D5W and administering over 20 minutes.  Because the dilution
+     * volume is fixed, the infusion rate (~180 mL/h) is independent of the dose
+     * within that range.  Dedicated lines are preferred.
+     */
+    digoxin_infusion: {
+      name: "Digoxin infusion",
+      unitType: "preset",
+      infusionVolume: 60,
+      infusionTimeHr: 0.3333,
+      prepText:
+        "Dilute 0.5–1.0 mg digoxin in up to 60 mL NS/D5W and infuse over up to 20 min. Dedicated lines are preferred.",
+      requiresDedicatedLine: true
     }
   };
 
@@ -535,6 +875,10 @@
     const dedicatedAlert = document.getElementById("dedicatedLineAlert");
     const doseRateContainer = document.getElementById("doseRateTableContainer");
     const doseRateTable = document.getElementById("doseRateTable");
+    const weightRateContainer = document.getElementById("weightTableContainer");
+    const weightTableEl = document.getElementById("weightTable");
+    const doseWeightContainer = document.getElementById("doseWeightTableContainer");
+    const doseWeightTable = document.getElementById("doseWeightTable");
 
     // Reset fields
     document.getElementById("results").style.display = "none";
@@ -561,10 +905,15 @@
       } else {
         heightGroup.style.display = "none";
       }
-      // Weight input based on unit type
+      // Weight input and dose label based on unit type
       if (config.unitType === "mcg_kg_min") {
+        // micrograms per kg per minute: require weight (unless derived from height) and show dose input
         weightGroup.style.display = config.useHeight ? "none" : "";
         doseLabel.textContent = "Target dose (mcg/kg/min)";
+      } else if (config.unitType === "ml_kg_min") {
+        // millilitres per kg per minute: require weight and show dose input
+        weightGroup.style.display = "";
+        doseLabel.textContent = "Target dose (mL/kg/min)";
       } else if (config.unitType === "mcg_min") {
         weightGroup.style.display = "none";
         doseLabel.textContent = "Target dose (mcg/min)";
@@ -574,21 +923,44 @@
       } else if (config.unitType === "mmol_hr") {
         weightGroup.style.display = "none";
         doseLabel.textContent = "Dose (mmol/hr)";
+      } else if (config.unitType === "weight_table") {
+        // For weight‑based tables, show weight input and hide dose input
+        weightGroup.style.display = "";
+        doseGroup.style.display = "none";
+      } else if (config.unitType === "alteplase_stroke" || config.unitType === "alteplase_pe") {
+        // Alteplase regimens require weight but no dose entry
+        weightGroup.style.display = "";
+        doseGroup.style.display = "none";
       } else {
-        // preset
+        // preset and other types
         weightGroup.style.display = "none";
         doseGroup.style.display = "none";
       }
-      // Dose group visibility
-      if (config.unitType === "preset" || config.unitType === "schedule") {
+      // Dose group visibility: hide dose input for preset, schedule, weight‑based tables and alteplase regimens
+      if (
+        config.unitType === "preset" ||
+        config.unitType === "schedule" ||
+        config.unitType === "weight_table" ||
+        config.unitType === "alteplase_stroke" ||
+        config.unitType === "alteplase_pe" ||
+        config.unitType === "info"
+      ) {
         doseGroup.style.display = "none";
       } else {
         doseGroup.style.display = "";
       }
       // Concentration group handling
-      if (config.unitType === "preset" || config.unitType === "schedule") {
+      if (
+        config.unitType === "preset" ||
+        config.unitType === "schedule" ||
+        config.unitType === "weight_table" ||
+        config.unitType === "alteplase_stroke" ||
+        config.unitType === "alteplase_pe" ||
+        config.unitType === "ml_kg_min" ||
+        config.unitType === "info"
+      ) {
+        // For fixed regimens, schedules, weight tables, alteplase, volume‑based doses and informational entries the user cannot override the concentration
         concGroup.style.display = "none";
-        // For fixed regimens or schedules, the concept of a "standard" concentration doesn't apply
         standardConcEl.textContent = "N/A";
       } else if (config.unitType === "mmol_hr") {
         concentrationLabel.textContent = "Custom concentration (mmol/mL, optional)";
@@ -634,6 +1006,22 @@
       } else {
         doseRateContainer.style.display = "none";
         doseRateTable.innerHTML = "";
+      }
+      // Build weight‑based rate table if present
+      if (config.unitType === "weight_table" && Array.isArray(config.weightTable)) {
+        buildWeightTable(key);
+        weightRateContainer.style.display = "";
+      } else {
+        weightRateContainer.style.display = "none";
+        weightTableEl.innerHTML = "";
+      }
+      // Build weight‑dose table for catecholamines with predefined weights and doses
+      if (Array.isArray(config.predeterminedWeights) && Array.isArray(config.predeterminedDoses)) {
+        buildDoseWeightTable(key);
+        doseWeightContainer.style.display = "";
+      } else {
+        doseWeightContainer.style.display = "none";
+        doseWeightTable.innerHTML = "";
       }
     }
   }
@@ -710,6 +1098,81 @@
     });
   }
 
+  // Build a weight‑based infusion table for drugs like heparin.  The configuration must define
+  // `weightTable` as an array of objects with `minWeight`, `maxWeight`, `unitsPerHr` and `rateMlPerHr`.
+  function buildWeightTable(key) {
+    const table = document.getElementById("weightTable");
+    table.innerHTML = "";
+    const config = drugConfigs[key];
+    if (!config || !Array.isArray(config.weightTable)) return;
+    // Header
+    const header = document.createElement("tr");
+    const rangeTh = document.createElement("th");
+    rangeTh.textContent = "Weight range (kg)";
+    header.appendChild(rangeTh);
+    const unitsTh = document.createElement("th");
+    unitsTh.textContent = "Units per hour";
+    header.appendChild(unitsTh);
+    const rateTh = document.createElement("th");
+    rateTh.textContent = "Infusion rate (mL/h)";
+    header.appendChild(rateTh);
+    table.appendChild(header);
+    // Rows
+    config.weightTable.forEach(entry => {
+      const tr = document.createElement("tr");
+      const rangeTd = document.createElement("td");
+      rangeTd.textContent = entry.minWeight + "–" + entry.maxWeight;
+      tr.appendChild(rangeTd);
+      const unitsTd = document.createElement("td");
+      unitsTd.textContent = entry.unitsPerHr;
+      tr.appendChild(unitsTd);
+      const rateTd = document.createElement("td");
+      rateTd.textContent = entry.rateMlPerHr;
+      tr.appendChild(rateTd);
+      table.appendChild(tr);
+    });
+  }
+
+  // Build a combined weight‑dose infusion table for drugs like Dobutamine and Dopamine.
+  // The configuration must define `predeterminedWeights` (array of weights in kg) and
+  // `predeterminedDoses` (array of doses in mcg/kg/min).  Rates are calculated using
+  // the drug's standard concentration in mcg/mL.  The resulting table displays weights
+  // down the first column and dose levels across the header, with each cell showing
+  // the calculated pump rate in mL/h.
+  function buildDoseWeightTable(key) {
+    const table = document.getElementById("doseWeightTable");
+    table.innerHTML = "";
+    const config = drugConfigs[key];
+    if (!config || !Array.isArray(config.predeterminedWeights) || !Array.isArray(config.predeterminedDoses)) return;
+    // Header row
+    const theadRow = document.createElement("tr");
+    const wtHeader = document.createElement("th");
+    wtHeader.textContent = "Weight (kg)";
+    theadRow.appendChild(wtHeader);
+    config.predeterminedDoses.forEach(dose => {
+      const th = document.createElement("th");
+      th.textContent = dose.toFixed(1) + " µg/kg/min";
+      theadRow.appendChild(th);
+    });
+    table.appendChild(theadRow);
+    // Rows for each weight
+    config.predeterminedWeights.forEach(wt => {
+      const tr = document.createElement("tr");
+      const wtCell = document.createElement("td");
+      wtCell.textContent = wt;
+      tr.appendChild(wtCell);
+      config.predeterminedDoses.forEach(dose => {
+        const td = document.createElement("td");
+        // Use concentration based on mcg/mL; compute rate mL/h
+        const conc = config.concentrationMcgPerMl;
+        const rate = (dose * wt * 60) / conc;
+        td.textContent = rate.toFixed(1);
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+  }
+
   // Primary calculation logic.  Handles weight‑based drugs, electrolytes, and fixed regimens.
   function calculateRate() {
     const select = document.getElementById("drugSelect");
@@ -725,6 +1188,13 @@
     summaryEl.textContent = "";
     if (!config) {
       errorEl.textContent = "Unknown drug configuration.";
+      return;
+    }
+    // Informational drugs: display preparation text and skip any calculation
+    if (config.unitType === "info") {
+      resultMainEl.textContent = "Refer to instructions";
+      summaryEl.textContent = config.name + ": " + config.prepText + " Always follow your protocol.";
+      resultsEl.style.display = "block";
       return;
     }
     // Scheduled multi‑phase regimens (e.g., lidocaine maintenance)
@@ -748,6 +1218,88 @@
       resultsEl.style.display = "block";
       return;
     }
+
+    // Alteplase regimens (weight‑based schedules with no user‑entered dose)
+    if (config.unitType === "alteplase_stroke" || config.unitType === "alteplase_pe") {
+      // Ensure weight is available
+      if (weight === null || isNaN(weight) || weight <= 0) {
+        errorEl.textContent = "Please enter a valid patient weight.";
+        return;
+      }
+      if (config.unitType === "alteplase_stroke") {
+        // Total dose is 0.9 mg/kg capped at 90 mg
+        let totalDose = weight * 0.9;
+        if (totalDose > 90) totalDose = 90;
+        const bolusDose = totalDose * 0.1;
+        const infusionDose = totalDose * 0.9;
+        // Bolus rate: bolusDose mg over 2 min → bolusDose/2 mg/min → ×60 = bolusDose*30 mg/h → mL/h assuming 1 mg/mL
+        const bolusRate = bolusDose * 30;
+        // Infusion rate: infusionDose mg over 60 min → infusionDose mg/h
+        const infusionRate = infusionDose;
+        resultMainEl.textContent = "Follow infusion schedule";
+        summaryEl.textContent =
+          config.name + ": total " + totalDose.toFixed(1) + " mg. " +
+          "Bolus " + bolusDose.toFixed(1) + " mg at " + bolusRate.toFixed(1) + " mL/h for 2 min, then " +
+          infusionDose.toFixed(1) + " mg at " + infusionRate.toFixed(1) + " mL/h for 60 min. Always adhere to protocol.";
+        resultsEl.style.display = "block";
+        return;
+      } else if (config.unitType === "alteplase_pe") {
+        // For PE: if weight >65 kg, total 100 mg; otherwise total 0.9 mg/kg
+        let totalDose = weight * 0.9;
+        if (weight > 65) totalDose = 100;
+        // Fixed bolus of 10 mg (if totalDose is less than 10, bolus = 10% of total)
+        let bolusDose = 10;
+        if (totalDose < 10) bolusDose = totalDose * 0.1;
+        const infusionDose = totalDose - bolusDose;
+        // Bolus rate: bolusDose mg over 2 min
+        const bolusRate = bolusDose * 30;
+        // Infusion rate: infusionDose over 120 min → mg/h = infusionDose/2
+        const infusionRate = infusionDose / 2;
+        resultMainEl.textContent = "Follow infusion schedule";
+        summaryEl.textContent =
+          config.name + ": total " + totalDose.toFixed(1) + " mg. " +
+          "Bolus " + bolusDose.toFixed(1) + " mg at " + bolusRate.toFixed(1) + " mL/h for 2 min, then " +
+          infusionDose.toFixed(1) + " mg at " + infusionRate.toFixed(1) + " mL/h for 120 min. Always adhere to protocol.";
+        resultsEl.style.display = "block";
+        return;
+      }
+    }
+    // Weight‑based tables (e.g., heparin).  No dose entry is needed; use weight to find the appropriate rate.
+    if (config.unitType === "weight_table") {
+      const weightVal = parseFloat(document.getElementById("weightInput").value);
+      if (isNaN(weightVal) || weightVal <= 0) {
+        errorEl.textContent = "Please enter a valid patient weight.";
+        return;
+      }
+      let match = null;
+      if (Array.isArray(config.weightTable)) {
+        // find the table entry that matches the weight
+        for (const entry of config.weightTable) {
+          if (weightVal >= entry.minWeight && weightVal <= entry.maxWeight) {
+            match = entry;
+            break;
+          }
+        }
+        // if no exact match, clamp to nearest range
+        if (!match) {
+          if (weightVal < config.weightTable[0].minWeight) {
+            match = config.weightTable[0];
+          } else {
+            match = config.weightTable[config.weightTable.length - 1];
+          }
+        }
+      }
+      if (!match) {
+        errorEl.textContent = "No weight table available for calculation.";
+        return;
+      }
+      // Format the infusion rate string safely (some entries may already be strings)
+      const rateStr = typeof match.rateMlPerHr === "number" ? match.rateMlPerHr.toFixed(1) : match.rateMlPerHr;
+      resultMainEl.textContent = "Set pump to approximately " + rateStr + " mL/h";
+      summaryEl.textContent = config.name + ": for " + weightVal + " kg, recommended " + match.unitsPerHr + " units/h (" + rateStr + " mL/h). Always follow your protocol.";
+      resultsEl.style.display = "block";
+      return;
+    }
     // Preset regimens
     if (config.unitType === "preset") {
       const rate = config.infusionVolume / config.infusionTimeHr;
@@ -763,8 +1315,8 @@
       return;
     }
     let weight = null;
-    // Determine weight
-    if (config.unitType === "mcg_kg_min") {
+    // Determine weight for weight‑dependent calculations (mcg_kg_min, ml_kg_min and alteplase regimens)
+    if (config.unitType === "mcg_kg_min" || config.unitType === "ml_kg_min" || config.unitType === "alteplase_stroke" || config.unitType === "alteplase_pe") {
       if (config.useHeight) {
         const heightVal = parseFloat(document.getElementById("heightInput").value);
         if (isNaN(heightVal) || heightVal <= 0) {
@@ -790,6 +1342,10 @@
       const concMcgPerMl = (!isNaN(concOverride) && concOverride > 0) ? concOverride : standardConc;
       rateMlPerHr = (doseInputVal * weight * 60) / concMcgPerMl;
       summary = config.name + ": dose " + doseInputVal + " mcg/kg/min at " + weight.toFixed(1) + " kg, concentration " + concMcgPerMl + " mcg/mL → pump rate ≈ " + rateMlPerHr.toFixed(1) + " mL/h.";
+    } else if (config.unitType === "ml_kg_min") {
+      // Volume‑based dosing: rate = dose (mL/kg/min) × weight (kg) × 60
+      rateMlPerHr = doseInputVal * weight * 60;
+      summary = config.name + ": dose " + doseInputVal + " mL/kg/min at " + weight.toFixed(1) + " kg → pump rate ≈ " + rateMlPerHr.toFixed(1) + " mL/h.";
     } else if (config.unitType === "mcg_min") {
       const standardConc = config.concentrationMcgPerMl;
       const concMcgPerMl = (!isNaN(concOverride) && concOverride > 0) ? concOverride : standardConc;
